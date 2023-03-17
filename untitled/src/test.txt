@@ -1,1 +1,10 @@
-This,is,a,standardized,test :)
+ABS ,
+SC ,
+CA ,
+ERPM ,
+TL ,
+EI ,
+MSAD ,
+CPA ,
+TCS ,
+GPS ,
