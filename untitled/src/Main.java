@@ -14,9 +14,9 @@ public class Main {
     }
 }
 
-//if we receive a signal from module, look for string in mod to see if it's there; if it is not , reject message
-//if the module is down, look for backup and accept number coming in.
-//if no backup is found, reject number.
-//module status
-//module controller
+// if we receive a signal from module, look for string in mod to see if it's there; if it is not , reject message
+// if the module is down, look for backup and accept number coming in.
+// if no backup is found, reject number.
+// module status
+// module controller
 // module status -- controls backups
