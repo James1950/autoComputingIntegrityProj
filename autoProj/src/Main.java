@@ -1,22 +1,35 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Main {
 
     //alternative module order, controls (inside brackets), & check status
-    public static boolean isCorrectMod(String cat, int senderEcu){
+    public static boolean isCorrectMod(String cat, int senderEcu, boolean ecuActive){
+        String[] controlSet = getControlSet(senderEcu);
+        if(Arrays.asList(controlSet).contains(cat) && ecuActive){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    private static String[] getControlSet(int senderEcu) {
+        String[] controlSet;
         switch(senderEcu) {
             case 1:
-                getMod1Controls();
+                controlSet = getMod1Controls();
                 break;
             case 2:
-                getMod2Controls();
+                controlSet = getMod2Controls();
                 break;
             default:
-                getMod3Controls();
+                controlSet = getMod3Controls();
         }
-        return true;
+        return controlSet;
     }
+
     private static String[] mod1Controls = {"ABS", "ERPM", "TL", "EI", "TCS"};
 
     public static String[] getMod1Controls() {
@@ -76,7 +89,7 @@ public class Main {
 
         while ((st = br.readLine()) != null){
             System.out.println(st);
-            String field = st.split(" , ")[0];
+            String field = st.split(" ,")[0];
             String val = (st.split(" ,")[1]).split(" ,")[0];
 //            int ecu = Integer.parseInt(st.split(" , ")[2]);
             setupCar(v, field, val, true);
@@ -84,6 +97,17 @@ public class Main {
 //            list.append(st);
         System.out.println("\n");
         System.out.print("This is the altered state of the vehicle:");
+
+        file = new File("autoProj/src/test.txt");
+        br = new BufferedReader(new FileReader(file));
+
+        while ((st = br.readLine()) != null){
+            System.out.println(st);
+            String field = st.split(" ,")[1];
+            String val = st.split(" ,")[2];
+            int ecu = Integer.parseInt(st.split(" ,")[0]);
+            setupCar(v, field, val, isCorrectMod(field, ecu, v.getEcuState(ecu)));
+        }
     }
 
     private static void setupCar(Vehicle v, String field, String val, Boolean correct) {
@@ -93,35 +117,44 @@ public class Main {
                     v.setAbs(Integer.parseInt(val));
                 break;
             case "SC":
+                if(correct)
                 v.setSc(Integer.parseInt(val));
                 break;
             case "CA":
+                if(correct)
                 v.setCa(Integer.parseInt(val));
                 break;
             case "ERPM":
-                // code block
+                if(correct)
+                v.setErpm(Integer.parseInt(val.split(" rpm")[0]));
                 break;
             case "TL":
-                // code block
+                if(correct)
+                v.setTl(Double.parseDouble(val.split(" volts")[0]));
                 break;
             case "EI":
-                // code block
+                if(correct)
+                v.setEi(Integer.parseInt(val.split(" rpm")[0]));
+                break;
+            case "ICV-F":
+                if(correct)
+                v.setIcvf(Double.parseDouble(val.split(" volts")[0]));
                 break;
             case "MSAD":
-                // code block
+                if(correct)
+                v.setMsad(Integer.parseInt(val));
                 break;
             case "CPA":
-                // code block
+                if(correct)
+                v.setCpa(Integer.parseInt(val));
                 break;
             case "TCS":
-                // code block
-                break;
-            case "GPS":
-                // code block
+                if(correct)
+                v.setTcs(Integer.parseInt(val));
                 break;
             default:
-                // code block
-
+                if(correct)
+                v.setGps(Integer.parseInt(val));
         }
     }
 
@@ -148,4 +181,6 @@ public class Main {
  - TCS  -Traction control (wheel slipping)
  - GPS  -Autonomous vehicle GPS
  */
-/* future mods - add in an ECU class to contain it all*/
+/* future mods - add in an ECU class to contain it all
+* modify the status of the ECU if needed (could be something done later)
+* */

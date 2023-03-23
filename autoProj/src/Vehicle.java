@@ -47,7 +47,21 @@ public class Vehicle {
     int msad;
     int cpa;
     boolean ecu1State;
+    public boolean getEcuState(int ecu){
+        boolean state;
+        switch(ecu) {
+            case 1:
+               state = isEcu1State();
+                break;
+            case 2:
+                state = isEcu2State();
+                break;
 
+            default:
+                state = isEcu3State();
+        }
+        return state;
+    }
     public boolean isEcu1State() {
         return ecu1State;
     }
