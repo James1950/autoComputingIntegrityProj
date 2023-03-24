@@ -11,9 +11,55 @@ public class Main {
             return true;
         }
         else{
-            return false;
+            int tempIndex = -1;
+                    String[][] fallbacks = {getMod1Controls(), getMod2Controls() , getMod3Controls()};
+                    for (int k = 0; k < fallbacks.length; k++){
+                        if(Arrays.asList(fallbacks[k]).contains(cat)){
+                            tempIndex = k;
+                            break;
+                        }
+                    }
+                    if(tempIndex != -1){
+
+                        Boolean x;
+                        if (tempIndex == 1){
+                            x = isMod1Status();
+                        }
+                        else if(tempIndex == 2){
+                            x = isMod2Status();
+                        }
+                        else {
+                            x = isMod3Status();
+                        }
+                        if(x){
+                            return false;
+                        }
+                        int[] fallbackers = getFallbackSet(tempIndex);
+                        for (int r= 0; r< fallbackers.length; r++){
+                            if (tempIndex == 1){
+                                x = isMod1Status();
+                            }
+                            else if(tempIndex == 2){
+                                x = isMod2Status();
+                            }
+                            else {
+                                x = isMod3Status();
+                            }
+
+                            if(fallbackers[r] == senderEcu && x){
+                                return true;
+                            }
+                        }
+
+
+                    }
+
+
+                return false;
+            }
+
         }
-    }
+
 
     private static String[] getControlSet(int senderEcu) {
         String[] controlSet;
@@ -30,7 +76,22 @@ public class Main {
         return controlSet;
     }
 
-    private static String[] mod1Controls = {"ABS", "ERPM", "TL", "EI", "TCS"};
+    private static int[] getFallbackSet(int senderEcu) {
+        int[] controlSet;
+        switch(senderEcu) {
+            case 1:
+                controlSet = getMod1Fallback();
+                break;
+            case 2:
+                controlSet = getMod2Fallback();
+                break;
+            default:
+                controlSet = getMod3Fallback();
+        }
+        return controlSet;
+    }
+
+    private static String[] mod1Controls = {"ABS", "ERPM", "TL", "EI", "TCS", "ICV-F"};
 
     public static String[] getMod1Controls() {
         return mod1Controls;
@@ -96,7 +157,7 @@ public class Main {
         }
 //            list.append(st);
         System.out.println("\n");
-        System.out.print("This is the altered state of the vehicle:");
+        System.out.print("This is the altered state of the vehicle:\n\n");
 
         file = new File("autoProj/src/test.txt");
         br = new BufferedReader(new FileReader(file));
