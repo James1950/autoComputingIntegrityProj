@@ -1,6 +1,6 @@
 1 ,ABS ,0 ,
 3 ,SC ,1 ,
-3 ,CA ,1 ,
+1 ,CA ,1 ,
 1 ,ERPM ,1000 rpm ,
 1 ,TL ,0.0 volts ,
 1 ,EI ,1000 rpm ,

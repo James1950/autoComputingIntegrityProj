@@ -15,7 +15,7 @@ public class Main {
                     String[][] fallbacks = {getMod1Controls(), getMod2Controls() , getMod3Controls()};
                     for (int k = 0; k < fallbacks.length; k++){
                         if(Arrays.asList(fallbacks[k]).contains(cat)){
-                            tempIndex = k;
+                            tempIndex = k+1;
                             break;
                         }
                     }
@@ -36,18 +36,24 @@ public class Main {
                         }
                         int[] fallbackers = getFallbackSet(tempIndex);
                         for (int r= 0; r< fallbackers.length; r++){
-                            if (tempIndex == 1){
+                            if (fallbackers[r] == 1){
                                 x = isMod1Status();
                             }
-                            else if(tempIndex == 2){
+                            else if(fallbackers[r] == 2){
                                 x = isMod2Status();
                             }
                             else {
                                 x = isMod3Status();
                             }
 
-                            if(fallbackers[r] == senderEcu && x){
-                                return true;
+                            if(x){
+                                if(fallbackers[r] == senderEcu){
+                                    return true;
+                                }
+                                else{
+                                    return false;
+                                }
+
                             }
                         }
 
@@ -135,8 +141,10 @@ public class Main {
     private static int[] mod2Fallback = {1,3};
     private static int[] mod3Fallback = {2,1};
     private static boolean mod1Status = true;
+
+    private static boolean isInIDSMode = false;
     private static boolean mod2Status = true;
-    private static boolean mod3Status = true;
+    private static boolean mod3Status = false;
 
     public static void main(String[] args) throws Exception {
 
@@ -174,48 +182,175 @@ public class Main {
     private static void setupCar(Vehicle v, String field, String val, Boolean correct) {
         switch(field) {
             case "ABS":
-                if(correct)
+                if(!correct && isInIDSMode == false){
+//                    v.setAbs(Integer.parseInt(val));
+//                    print message not received or something
+                    System.out.println("ECU not correct, ABS not set to " + val);
+                }
+
+
+                else{
                     v.setAbs(Integer.parseInt(val));
+//                    print message not received or something
+                    System.out.println("ABS set to " + val);
+                }
                 break;
             case "SC":
-                if(correct)
-                v.setSc(Integer.parseInt(val));
+                if(!correct && isInIDSMode == false){
+//                    v.setAbs(Integer.parseInt(val));
+//                    print message not received or something
+                    System.out.println("ECU not correct, SC not set to " + val);
+                }
+
+
+                else{
+                    v.setSc(Integer.parseInt(val));
+//                    print message not received or something
+                    System.out.println("SC set to " + val);
+                }
                 break;
             case "CA":
-                if(correct)
-                v.setCa(Integer.parseInt(val));
+                if(!correct && isInIDSMode == false){
+//                    v.setAbs(Integer.parseInt(val));
+//                    print message not received or something
+                    System.out.println("ECU not correct, CA not set to " + val);
+                }
+
+
+                else{
+                    v.setCa(Integer.parseInt(val));
+//                    print message not received or something
+                    System.out.println("CA set to " + val);
+                }
                 break;
             case "ERPM":
-                if(correct)
-                v.setErpm(Integer.parseInt(val.split(" rpm")[0]));
+                if(!correct && isInIDSMode == false){
+//                    v.setAbs(Integer.parseInt(val));
+//                    print message not received or something
+                    System.out.println("ECU not correct, ERPM not set to " + val);
+                }
+
+
+                else{
+                    v.setErpm(Integer.parseInt(val.split(" rpm")[0]));
+//                    print message not received or something
+                    System.out.println("ERPM set to " + val);
+                }
+
+
                 break;
             case "TL":
-                if(correct)
-                v.setTl(Double.parseDouble(val.split(" volts")[0]));
+
+                if(!correct && isInIDSMode == false){
+//                    v.setAbs(Integer.parseInt(val));
+//                    print message not received or something
+                    System.out.println("ECU not correct, TL not set to " + val);
+                }
+
+
+                else{
+                    v.setTl(Double.parseDouble(val.split(" volts")[0]));
+//                    print message not received or something
+                    System.out.println("TL set to " + val);
+                }
+
                 break;
             case "EI":
-                if(correct)
-                v.setEi(Integer.parseInt(val.split(" rpm")[0]));
+
+                if(!correct && isInIDSMode == false){
+//                    v.setAbs(Integer.parseInt(val));
+//                    print message not received or something
+                    System.out.println("ECU not correct, EI not set to " + val);
+                }
+
+
+                else{
+                    v.setEi(Integer.parseInt(val.split(" rpm")[0]));
+//                    print message not received or something
+                    System.out.println("EI set to " + val);
+                }
+
+
                 break;
             case "ICV-F":
-                if(correct)
-                v.setIcvf(Double.parseDouble(val.split(" volts")[0]));
+
+                if(!correct && isInIDSMode == false){
+//                    v.setAbs(Integer.parseInt(val));
+//                    print message not received or something
+                    System.out.println("ECU not correct, ICV-F not set to " + val);
+                }
+
+
+                else{
+                    v.setIcvf(Double.parseDouble(val.split(" volts")[0]));
+//                    print message not received or something
+                    System.out.println("ICV-F set to " + val);
+                }
+
                 break;
             case "MSAD":
-                if(correct)
-                v.setMsad(Integer.parseInt(val));
+                if(!correct && isInIDSMode == false){
+//                    v.setAbs(Integer.parseInt(val));
+//                    print message not received or something
+                    System.out.println("ECU not correct, MSAD not set to " + val);
+                }
+
+
+                else{
+                    v.setMsad(Integer.parseInt(val));
+//                    print message not received or something
+                    System.out.println("MASD set to " + val);
+                }
+
+
                 break;
             case "CPA":
-                if(correct)
-                v.setCpa(Integer.parseInt(val));
+                if(!correct && isInIDSMode == false){
+//                    v.setAbs(Integer.parseInt(val));
+//                    print message not received or something
+                    System.out.println("ECU not correct, CPA not set to " + val);
+                }
+
+
+                else{
+                    v.setCpa(Integer.parseInt(val));
+//                    print message not received or something
+                    System.out.println("CPA set to " + val);
+                }
+
+
+
+
                 break;
             case "TCS":
-                if(correct)
-                v.setTcs(Integer.parseInt(val));
+                if(!correct && isInIDSMode == false){
+//                    v.setAbs(Integer.parseInt(val));
+//                    print message not received or something
+                    System.out.println("ECU not correct, TCS not set to " + val);
+                }
+
+
+                else{
+                    v.setTcs(Integer.parseInt(val));
+//                    print message not received or something
+                    System.out.println("TCS set to " + val);
+                }
+
                 break;
             default:
-                if(correct)
-                v.setGps(Integer.parseInt(val));
+                if(!correct && isInIDSMode == false){
+//                    v.setAbs(Integer.parseInt(val));
+//                    print message not received or something
+                    System.out.println("ECU not correct, GPS not set to " + val);
+                }
+
+
+                else {
+                    v.setGps(Integer.parseInt(val));
+//                    print message not received or something
+                    System.out.println("GPS set to " + val);
+                }
+
         }
     }
 
